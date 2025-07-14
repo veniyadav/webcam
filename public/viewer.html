@@ -10,7 +10,7 @@
 
   <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
   <script>
-    const socket = io("http://localhost:3000");
+    const socket = io("https://webcam-7t0t.onrender.com");
     const img = document.getElementById("cam");
 
     socket.on("video", (data) => {

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Viewing Remote Camera</title>
+</head>
+<body>
+  <h2>👁️ Viewing Remote Camera</h2>
+  <img id="cam" width="320" />
+
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+  <script>
+    const socket = io("http://localhost:3000");
+    const img = document.getElementById("cam");
+
+    socket.on("video", (data) => {
+      img.src = `data:image/jpeg;base64,${data}`;
+    });
+  </script>
+</body>
+</html>

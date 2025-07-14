@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sender</title>
+</head>
+<body>
+  <h2>🎥 Sending Camera Feed...</h2>
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+  <script>
+    const socket = io("http://localhost:3000");
+
+    const video = document.createElement('video');
+    video.autoplay = true;
+    video.width = 320;
+    document.body.appendChild(video);
+
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      .then(stream => {
+        video.srcObject = stream;
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 320;
+        canvas.height = 240;
+
+        setInterval(() => {
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          const data = canvas.toDataURL('image/jpeg').split(',')[1];
+          socket.emit("video", data);
+        }, 100);
+      })
+      .catch(err => console.error("❌ Camera access error:", err));
+  </script>
+</body>
+</html>
